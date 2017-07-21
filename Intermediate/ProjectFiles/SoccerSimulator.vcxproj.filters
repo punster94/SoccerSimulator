@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\SoccerSimulator.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{40F56B60-ED4D-410C-BE07-CCC394268C9A}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\SoccerSimulator.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\SoccerSimulatorEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{3DC97EA0-8F6C-4B50-87EC-B585A3336784}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\SoccerSimulator">
+      <UniqueIdentifier>{1D1A9A1B-FCC1-4F2D-BBC1-A96474923832}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\SoccerSimulator\SoccerSimulator.Build.cs">
+      <Filter>Source\SoccerSimulator</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\SoccerSimulator\SoccerSimulator.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\SoccerSimulator\SoccerSimulator.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\SoccerSimulator\SoccerSimulatorGameMode.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\SoccerSimulator\SoccerSimulatorGameMode.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\SoccerSimulator\StateMachine.inl">
+      <Filter>Source\SoccerSimulator</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\SoccerSimulator\SoccerBall.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\SoccerField.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\Goal.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\PlayerBase.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\SteeringBehavior.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\GoalKeeper.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\FieldPlayer.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\SoccerTeam.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\Enums.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\State.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\StateMachine.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\TeamStates.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\FieldPlayerStates.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SoccerSimulator\GoalKeeperStates.h">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\SoccerSimulator\SoccerBall.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\SoccerField.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\Goal.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\PlayerBase.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\SteeringBehavior.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\GoalKeeper.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\FieldPlayer.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\SoccerTeam.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\TeamStates.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\FieldPlayerStates.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SoccerSimulator\GoalKeeperStates.cpp">
+      <Filter>Source\SoccerSimulator</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
