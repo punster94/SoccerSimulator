@@ -185,3 +185,21 @@ private:
 
 	Recover() {};
 };
+
+class FindAggressivePosition : public State<AFieldPlayer>
+{
+
+public:
+
+	static FindAggressivePosition* Instance();
+
+	virtual void Enter(AFieldPlayer& player) override;
+
+	virtual void Execute(AFieldPlayer& player) override;
+
+	virtual void Exit(AFieldPlayer& player) override;
+
+private:
+
+	FindAggressivePosition() {};
+};

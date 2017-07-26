@@ -109,26 +109,37 @@ void Wait::Execute(AFieldPlayer& player)
 
 	// If you're the closest behind the ball but the ball hasn't been picked up by receiver
 	if (player.GetTeam()->InControl() &&
-		player.GetTeam()->GetClosestPlayerBehindBall() == &player &&
 		player.GetTeam()->GetReceiver() != nullptr &&
 		player.GetTeam()->GetBall()->Stale() &&
 		!player.GetTeam()->GetField()->GoalKeeperHasBall())
 	{
-		player.GetStateMachine().ChangeState(*ReceiveBall::Instance());
-		return;
+		APlayerBase* behind = player.GetTeam()->GetClosestPlayerBehindBall();
+
+		if (behind == &player ||
+			(!behind->BehindBall() &&
+			player.GetTeam()->GetClosestNonGoalieToBall() == &player))
+		{
+			player.GetStateMachine().ChangeState(*ReceiveBall::Instance());
+			return;
+		}
 	}
 
-	//if (player.GetTeam()->GetField()->GameOn())
-	//{
-	//	switch (player.PlayerRole)
-	//	{
+	if (player.GetTeam()->GetField()->GameOn())
+	{
+		switch (player.PlayerRole)
+		{
 
-	//	case EPlayerRole::sweeper:
-	//		player.GetStateMachine().ChangeState(*BlockBall::Instance());
+		case EPlayerRole::sweeper:
+			player.GetStateMachine().ChangeState(*BlockBall::Instance());
 
-	//		break;
-	//	}
-	//}
+			break;
+
+		case EPlayerRole::forward:
+			player.GetStateMachine().ChangeState(*FindAggressivePosition::Instance());
+
+			break;
+		}
+	}
 }
 
 void Wait::Exit(AFieldPlayer& player)
@@ -288,14 +299,11 @@ void KickBall::Execute(AFieldPlayer& player)
 
 	float power = player.MaxShootingStrength * dot;
 
-	if (player.GetTeam()->CanShoot(player.GetTeam()->GetBall()->GetLocation(), power, ballTarget) ||
-		FMath::FRand() < player.ChancePlayerAttemptsPotShot)
+	if (player.GetTeam()->CanShoot(player.GetTeam()->GetBall()->GetLocation(), power, ballTarget))// ||
+		//FMath::FRand() < player.ChancePlayerAttemptsPotShot)
 	{
 		ballTarget = player.AddNoiseToKick(player.GetTeam()->GetBall()->GetLocation(), ballTarget);
-
 		FVector kickDirection = ballTarget - player.GetTeam()->GetBall()->GetLocation();
-
-		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Attempting Shot At Goal"));
 
 		player.GetTeam()->GetBall()->Kick(kickDirection, power);
 
@@ -317,8 +325,6 @@ void KickBall::Execute(AFieldPlayer& player)
 		ballTarget = player.AddNoiseToKick(player.GetTeam()->GetBall()->GetLocation(), ballTarget);
 
 		FVector kickDirection = ballTarget - player.GetTeam()->GetBall()->GetLocation();
-
-		//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Attempting Pass"));
 
 		player.GetTeam()->GetBall()->Kick(kickDirection, power);
 
@@ -579,16 +585,27 @@ void BlockBall::Enter(AFieldPlayer& player)
 
 void BlockBall::Execute(AFieldPlayer& player)
 {
-	if (player.GetTeam()->InControl())
-	{
-		player.GetStateMachine().ChangeState(*Wait::Instance());
+	//if (player.GetTeam()->InControl())
+	//{
+	//	player.GetStateMachine().ChangeState(*Wait::Instance());
 
-		return;
-	}
+	//	return;
+	//}
 
 	if (player.IsClosestTeamMemberToBall())
 	{
 		player.GetStateMachine().ChangeState(*ChaseBall::Instance());
+
+		return;
+	}
+
+	if (player.BallInSlice())
+	{
+		player.GetSteering()->SetOtherTargetObject(player.GetTeam()->GetBall()->GetObject());
+	}
+	else
+	{
+		player.SetInterposeLocation(player.GetHomeLocation());
 	}
 }
 
@@ -623,4 +640,51 @@ void Recover::Execute(AFieldPlayer& player)
 
 void Recover::Exit(AFieldPlayer& player)
 {
+}
+
+FindAggressivePosition* FindAggressivePosition::Instance()
+{
+	static FindAggressivePosition instance;
+
+	return &instance;
+}
+
+void FindAggressivePosition::Enter(AFieldPlayer& player)
+{
+	player.GetSteering()->ArriveOn();
+
+	if (!player.GetTeam()->InControl())
+	{
+		player.GetStateMachine().ChangeState(*Wait::Instance());
+	}
+}
+
+void FindAggressivePosition::Execute(AFieldPlayer& player)
+{
+	// If the forward is the closest and also behind the ball, take it
+	if (player.GetTeam()->GetClosestNonGoalieToBall() == &player &&
+		player.GetTeam()->GetClosestPlayerBehindBall() == &player)
+	{
+		player.GetStateMachine().ChangeState(*ChaseBall::Instance());
+
+		return;
+	}
+
+	// If the team is defending, go home
+	if (!player.GetTeam()->InControl())
+	{
+		player.GetStateMachine().ChangeState(*Wait::Instance());
+
+		return;
+	}
+
+	FVector aggressivePosition = player.GetHomeLocation();
+	aggressivePosition.X = player.GetTeam()->GetBall()->GetLocation().X;
+
+	player.GetSteering()->SetTargetLocation(aggressivePosition);
+}
+
+void FindAggressivePosition::Exit(AFieldPlayer& player)
+{
+	player.GetSteering()->ArriveOff();
 }

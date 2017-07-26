@@ -29,6 +29,8 @@ public:
 
 	bool OutsideInterceptionRange();
 
+	virtual float ReachSpeed() override;
+
 	UPROPERTY(EditAnywhere)
 	float InterceptRange;
 

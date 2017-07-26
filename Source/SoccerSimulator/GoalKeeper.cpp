@@ -108,3 +108,8 @@ bool AGoalKeeper::OutsideInterceptionRange()
 {
 	return FVector::Dist(GetLocation(), GetTeam()->GetGoal()->GetLocation()) > MaxInterceptRange;
 }
+
+float AGoalKeeper::ReachSpeed()
+{
+	return 0.0f;
+}

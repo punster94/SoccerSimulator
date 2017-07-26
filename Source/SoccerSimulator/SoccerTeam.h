@@ -215,6 +215,9 @@ protected:
 	float AdvancementSpeed;
 
 	UPROPERTY(EditAnywhere)
+	float FallBackSpeed;
+
+	UPROPERTY(EditAnywhere)
 	float MaximumAdvancementDistance;
 
 	UPROPERTY(EditAnywhere)

@@ -197,6 +197,16 @@ public:
 
 	void TargetHome();
 
+	void SetSlice(float Top, float Bottom);
+
+	bool BallInSlice();
+
+	FVector GetHomeLocation();
+
+	virtual float ReachSpeed();
+
+	bool BehindBall();
+
 protected:
 
 	UFUNCTION()
@@ -220,6 +230,10 @@ private:
 		Normal,
 		Regenerating,
 	};
+
+	float SliceTop;
+
+	float SliceBottom;
 
 	EStaminaState CurrentStaminaState;
 

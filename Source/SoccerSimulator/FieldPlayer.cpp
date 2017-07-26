@@ -11,6 +11,12 @@ AFieldPlayer::AFieldPlayer() :
 	APlayerBase()
 {
 	PlayerStateMachine = new StateMachine<AFieldPlayer>(*this);
+
+	InterposeTarget = CreateDefaultSubobject<USphereComponent>("InterposeTarget");
+
+	InterposeTarget->SetupAttachment(RootComponent);
+	InterposeTarget->SetSphereRadius(0.0f);
+	InterposeTarget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
 
 AFieldPlayer::~AFieldPlayer()
@@ -120,4 +126,11 @@ void AFieldPlayer::FindSupport()
 			bestSupport->MessageSupportAttacker();
 		}
 	}
+}
+
+void AFieldPlayer::SetInterposeLocation(FVector Position)
+{
+	InterposeTarget->SetWorldLocation(Position);
+
+	GetSteering()->SetOtherTargetObject(InterposeTarget);
 }

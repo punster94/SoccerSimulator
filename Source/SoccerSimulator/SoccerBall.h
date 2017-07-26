@@ -49,6 +49,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	float TimeUntilStale;
 
+	UPROPERTY(EditAnywhere)
+	float MinimumPassSpeed;
+
 protected:
 
 	UFUNCTION()

@@ -89,6 +89,7 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ASoccerTeam); \
 	FORCEINLINE static uint32 __PPO__MaxTimeForPass() { return STRUCT_OFFSET(ASoccerTeam, MaxTimeForPass); } \
 	FORCEINLINE static uint32 __PPO__ControlLossDistance() { return STRUCT_OFFSET(ASoccerTeam, ControlLossDistance); } \
 	FORCEINLINE static uint32 __PPO__AdvancementSpeed() { return STRUCT_OFFSET(ASoccerTeam, AdvancementSpeed); } \
+	FORCEINLINE static uint32 __PPO__FallBackSpeed() { return STRUCT_OFFSET(ASoccerTeam, FallBackSpeed); } \
 	FORCEINLINE static uint32 __PPO__MaximumAdvancementDistance() { return STRUCT_OFFSET(ASoccerTeam, MaximumAdvancementDistance); } \
 	FORCEINLINE static uint32 __PPO__DribbleDistance() { return STRUCT_OFFSET(ASoccerTeam, DribbleDistance); } \
 	FORCEINLINE static uint32 __PPO__ReceivingOffset() { return STRUCT_OFFSET(ASoccerTeam, ReceivingOffset); } \

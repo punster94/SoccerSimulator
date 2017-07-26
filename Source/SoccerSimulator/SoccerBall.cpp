@@ -13,6 +13,7 @@ ASoccerBall::ASoccerBall()
 
 	BallFriction = -500.0f;
 	TimeUntilStale = 1.5f;
+	MinimumPassSpeed = 0.0f;
 }
 
 void ASoccerBall::BeginPlay()
@@ -22,7 +23,6 @@ void ASoccerBall::BeginPlay()
 	Owner = nullptr;
 	LastPosition = BallMesh->GetComponentLocation();
 	BallMesh->GetPhysicsVolume()->FluidFriction = 0.0f;
-	//BallMesh->GetMaterial(0)->GetPhysicalMaterial()->Friction;
 
 	TimeSinceLastKick = 0.0f;
 }
@@ -33,8 +33,9 @@ void ASoccerBall::Tick(float DeltaTime)
 
 	UpdateLastPosition();
 
-	FVector friction = BallMesh->GetPhysicsLinearVelocity();
-	FVector velocity = friction;
+	FVector velocity = BallMesh->GetPhysicsLinearVelocity();
+
+	FVector friction = velocity;
 	friction.Z = 0.0f;
 	friction.Normalize();
 	friction *= DeltaTime * BallFriction;
@@ -62,7 +63,8 @@ void ASoccerBall::Kick(FVector Direction, float force)
 	direction.Z = 0.0f;
 	direction.Normalize();
 
-	BallMesh->AddImpulse(direction * force);
+	//BallMesh->AddImpulse(direction * force);
+	BallMesh->SetPhysicsLinearVelocity(direction * force, true);
 
 	TimeSinceLastKick = 0.0f;
 }
@@ -87,16 +89,19 @@ float ASoccerBall::GetRadius()
 
 float ASoccerBall::TimeToCoverDistance(FVector From, FVector To, float Force)
 {
-	float speed = Force / BallMesh->GetMass();
+	// Kinematic vf^2 = vi^2 + 2 * a * d to confirm friction won't overtake before destination is reached
+	float initialSpeed = Force;
+	float distance = FVector::Distance(From, To);
+	float finalSpeed = initialSpeed * initialSpeed + 2.0f * distance * BallFriction;
+	finalSpeed = FMath::Sqrt(finalSpeed);
 
-	float term = speed * speed + 2.0f * FVector::Distance(From, To) * BallFriction;
-
-	if (term <= 0.05f * speed * speed)
+	if (finalSpeed <= MinimumPassSpeed)
 	{
 		return -1.0f;
 	}
 
-	return (FMath::Sqrt(term) - speed) / BallFriction;
+	// Kinematic vf = vi + a * t to calculate time
+	return (finalSpeed - initialSpeed) / BallFriction;
 }
 
 FVector ASoccerBall::FuturePosition(float Time)

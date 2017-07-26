@@ -34,6 +34,8 @@ public:
 
 	void FindSupport();
 
+	void SetInterposeLocation(FVector Position);
+
 	UPROPERTY(EditAnywhere)
 	EPlayerRole PlayerRole;
 
@@ -46,4 +48,6 @@ public:
 private:
 
 	StateMachine<AFieldPlayer>* PlayerStateMachine;
+
+	USphereComponent* InterposeTarget;
 };

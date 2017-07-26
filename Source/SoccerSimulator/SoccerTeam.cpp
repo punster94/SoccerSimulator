@@ -60,6 +60,7 @@ ASoccerTeam::ASoccerTeam()
 	MaxTimeForPass = 0.3f;
 	ControlLossDistance = 400.0f;
 	AdvancementSpeed = 1.0f;
+	FallBackSpeed = 1.0f;
 	MaximumAdvancementDistance = 2000.0f;
 	DribbleDistance = 3000.0f;
 
@@ -234,10 +235,10 @@ bool ASoccerTeam::IsPassSafeFromOpponent(FVector From, FVector To, APlayerBase* 
 	{
 		return true;
 	}
-
+	
 	if (FVector::DistSquared(From, To) < FVector::DistSquared(Opponent->GetLocation(), From))
 	{
-		if (Receiving)
+		if (Receiving != nullptr)
 		{
 			return FVector::DistSquared(To, Opponent->GetLocation()) > FVector::DistSquared(To, Receiving->GetLocation());
 		}
@@ -248,7 +249,7 @@ bool ASoccerTeam::IsPassSafeFromOpponent(FVector From, FVector To, APlayerBase* 
 	}
 
 	float timeForBall = Ball->TimeToCoverDistance(From, To, PassingForce);
-	float reach = Opponent->CurrentSpeed * timeForBall + Opponent->GetRadius() + Ball->GetRadius();
+	float reach = Opponent->ReachSpeed() * timeForBall + Opponent->GetRadius() + Ball->GetRadius();
 
 	return FVector::Dist(Opponent->GetLocation(), To) >= reach;
 }
@@ -516,12 +517,9 @@ bool ASoccerTeam::FindPass(APlayerBase& Passer, APlayerBase*& Receiving, FVector
 
 	for (APlayerBase* player : Players)
 	{
-		float dot = FVector::DotProduct((Ball->GetLocation() - player->GetLocation()), (Ball->GetLocation() - Passer.GetLocation()));
-
 		if (player != &Passer &&
 			player != Goalie &&
-			FVector::Dist(Passer.GetLocation(), player->GetLocation()) > Distance &&
-			dot < PassAngleDot)// &&
+			FVector::Dist(Passer.GetLocation(), player->GetLocation()) > Distance)// &&
 			//player->IsAheadOfAttacker())
 		{
 			if (GetBestPassToReceiver(Passer, *player, target, Power))
@@ -545,9 +543,17 @@ bool ASoccerTeam::FindPass(APlayerBase& Passer, APlayerBase*& Receiving, FVector
 
 bool ASoccerTeam::IsPlayerThreatened(APlayerBase& Player)
 {
-	for (APlayerBase* opponent : OpponentTeam->Players)
+	for (AFieldPlayer* opponent : OpponentTeam->FieldPlayers)
 	{
-		if (Player.PositionInFrontOfPlayer(opponent->GetLocation()) &&
+		FVector toOpponent = opponent->GetLocation() - Player.GetLocation();
+		toOpponent.Normalize();
+
+		FVector toGoal = OpponentTeam->GetGoal()->GetLocation() - Player.GetLocation();
+
+		float dot = FVector::DotProduct(toOpponent, toGoal);
+
+		if (//Player.PositionInFrontOfPlayer(opponent->GetLocation()) &&
+			dot > PassAngleDot &&
 			FVector::Dist(Player.GetLocation(), opponent->GetLocation()) < Player.ComfortRadius)
 		{
 			return true;
@@ -590,12 +596,14 @@ bool ASoccerTeam::GetBestPassToReceiver(APlayerBase& Passer, APlayerBase& Receiv
 		float distance = FMath::Abs(pass.X - OpponentTeam->GetGoal()->GetLocation().X);
 
 		if (distance < closestSoFar &&
-			Field->IsPositionInPlayArea(pass) &&
-			IsPassSafeFromAllOpponents(Ball->GetLocation(), pass, &Receiving, Power))
+			Field->IsPositionInPlayArea(pass))
 		{
-			closestSoFar = distance;
-			PassTarget = pass;
-			result = true;
+			if (IsPassSafeFromAllOpponents(Ball->GetLocation(), pass, &Receiving, Power))
+			{
+				closestSoFar = distance;
+				PassTarget = pass;
+				result = true;
+			}
 		}
 	}
 
@@ -659,6 +667,8 @@ FVector ASoccerTeam::CalculatePlayerHomeRegion(class AFieldPlayer* Player)
 
 	regionPosition.Y = fieldLocation.Y - (bounds.Y * 0.5f);
 	regionPosition.Y += (sliceY * playerNumber) + (sliceY * 0.5f);
+
+	Player->SetSlice(regionPosition.Y - (sliceY * 0.5f), regionPosition.Y + (sliceY * 0.5f));
 
 	float sqDistanceFromMiddle = TeamRoleDistances[Player->PlayerRole] * Field->CurrentDiagonalRatio();
 	sqDistanceFromMiddle *= sqDistanceFromMiddle;
@@ -756,7 +766,7 @@ void ASoccerTeam::UpdateAdvancement(float DeltaTime)
 		break;
 
 	case ETeamAdvancementState::fallback:
-		xOffset -= AdvancementSpeed * DeltaTime;
+		xOffset -= FallBackSpeed * DeltaTime;
 
 		break;
 	}

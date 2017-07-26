@@ -375,6 +375,39 @@ void APlayerBase::TargetHome()
 	Steering->SetTargetLocation(HomeRegion);
 }
 
+void APlayerBase::SetSlice(float Top, float Bottom)
+{
+	SliceTop = Top;
+	SliceBottom = Bottom;
+}
+
+bool APlayerBase::BallInSlice()
+{
+	float ballY = Team->GetBall()->GetLocation().Y;
+
+	return ballY > SliceTop && ballY < SliceBottom;
+}
+
+FVector APlayerBase::GetHomeLocation()
+{
+	return HomeRegion;
+}
+
+float APlayerBase::ReachSpeed()
+{
+	return CurrentSpeed;
+}
+
+bool APlayerBase::BehindBall()
+{
+	if (Team->GetTeam() == ETeam::blue)
+	{
+		return GetLocation().X < Team->GetBall()->GetLocation().X;
+	}
+
+	return GetLocation().X > Team->GetBall()->GetLocation().X;
+}
+
 void APlayerBase::Steer(float DeltaTime)
 {
 	FVector destinationVelocity = Steering->Calculate(DeltaTime);

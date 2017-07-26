@@ -92,11 +92,11 @@ static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EDecelerationType(EDecel
 		FNativeFunctionRegistrar::RegisterFunction(ASoccerBall::StaticClass(), "OnComponentHit",(Native)&ASoccerBall::execOnComponentHit);
 		FNativeFunctionRegistrar::RegisterFunction(ASoccerBall::StaticClass(), "PlaceAtPosition",(Native)&ASoccerBall::execPlaceAtPosition);
 	}
-	IMPLEMENT_CLASS(ASoccerBall, 2207400530);
+	IMPLEMENT_CLASS(ASoccerBall, 976283467);
 	void ASoccerTeam::StaticRegisterNativesASoccerTeam()
 	{
 	}
-	IMPLEMENT_CLASS(ASoccerTeam, 2869284571);
+	IMPLEMENT_CLASS(ASoccerTeam, 1291727455);
 	void ASoccerField::StaticRegisterNativesASoccerField()
 	{
 	}
@@ -911,6 +911,7 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 				UProperty* NewProp_BallFriction = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("BallFriction"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(BallFriction, ASoccerBall), 0x0020080000000001);
+				UProperty* NewProp_MinimumPassSpeed = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("MinimumPassSpeed"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(MinimumPassSpeed, ASoccerBall), 0x0010000000000001);
 				UProperty* NewProp_TimeUntilStale = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("TimeUntilStale"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(TimeUntilStale, ASoccerBall), 0x0010000000000001);
 				UProperty* NewProp_BallMesh = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("BallMesh"), RF_Public|RF_Transient|RF_MarkAsNative) UObjectProperty(CPP_PROPERTY_BASE(BallMesh, ASoccerBall), 0x00100000000a0009, Z_Construct_UClass_UStaticMeshComponent_NoRegister());
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
@@ -925,6 +926,8 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 				MetaData->SetValue(OuterClass, TEXT("ModuleRelativePath"), TEXT("SoccerBall.h"));
 				MetaData->SetValue(NewProp_BallFriction, TEXT("Category"), TEXT("SoccerBall"));
 				MetaData->SetValue(NewProp_BallFriction, TEXT("ModuleRelativePath"), TEXT("SoccerBall.h"));
+				MetaData->SetValue(NewProp_MinimumPassSpeed, TEXT("Category"), TEXT("SoccerBall"));
+				MetaData->SetValue(NewProp_MinimumPassSpeed, TEXT("ModuleRelativePath"), TEXT("SoccerBall.h"));
 				MetaData->SetValue(NewProp_TimeUntilStale, TEXT("Category"), TEXT("SoccerBall"));
 				MetaData->SetValue(NewProp_TimeUntilStale, TEXT("ModuleRelativePath"), TEXT("SoccerBall.h"));
 				MetaData->SetValue(NewProp_BallMesh, TEXT("Category"), TEXT("SoccerBall"));
@@ -967,6 +970,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 				UProperty* NewProp_ReceivingOffset = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("ReceivingOffset"), RF_Public|RF_Transient|RF_MarkAsNative) UStructProperty(CPP_PROPERTY_BASE(ReceivingOffset, ASoccerTeam), 0x0020080000000001, Z_Construct_UScriptStruct_FVector());
 				UProperty* NewProp_DribbleDistance = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("DribbleDistance"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(DribbleDistance, ASoccerTeam), 0x0020080000000001);
 				UProperty* NewProp_MaximumAdvancementDistance = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("MaximumAdvancementDistance"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(MaximumAdvancementDistance, ASoccerTeam), 0x0020080000000001);
+				UProperty* NewProp_FallBackSpeed = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("FallBackSpeed"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(FallBackSpeed, ASoccerTeam), 0x0020080000000001);
 				UProperty* NewProp_AdvancementSpeed = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("AdvancementSpeed"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(AdvancementSpeed, ASoccerTeam), 0x0020080000000001);
 				UProperty* NewProp_ControlLossDistance = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("ControlLossDistance"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(ControlLossDistance, ASoccerTeam), 0x0020080000000001);
 				UProperty* NewProp_MaxTimeForPass = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("MaxTimeForPass"), RF_Public|RF_Transient|RF_MarkAsNative) UFloatProperty(CPP_PROPERTY_BASE(MaxTimeForPass, ASoccerTeam), 0x0020080000000001);
@@ -1015,6 +1019,8 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 				MetaData->SetValue(NewProp_DribbleDistance, TEXT("ModuleRelativePath"), TEXT("SoccerTeam.h"));
 				MetaData->SetValue(NewProp_MaximumAdvancementDistance, TEXT("Category"), TEXT("SoccerTeam"));
 				MetaData->SetValue(NewProp_MaximumAdvancementDistance, TEXT("ModuleRelativePath"), TEXT("SoccerTeam.h"));
+				MetaData->SetValue(NewProp_FallBackSpeed, TEXT("Category"), TEXT("SoccerTeam"));
+				MetaData->SetValue(NewProp_FallBackSpeed, TEXT("ModuleRelativePath"), TEXT("SoccerTeam.h"));
 				MetaData->SetValue(NewProp_AdvancementSpeed, TEXT("Category"), TEXT("SoccerTeam"));
 				MetaData->SetValue(NewProp_AdvancementSpeed, TEXT("ModuleRelativePath"), TEXT("SoccerTeam.h"));
 				MetaData->SetValue(NewProp_ControlLossDistance, TEXT("Category"), TEXT("SoccerTeam"));
@@ -1213,7 +1219,7 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 			ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), NULL, FName(TEXT("/Script/SoccerSimulator")), false, false));
 			ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);
 			FGuid Guid;
-			Guid.A = 0x3D3282C5;
+			Guid.A = 0xF639D935;
 			Guid.B = 0x6793D97B;
 			Guid.C = 0x00000000;
 			Guid.D = 0x00000000;
