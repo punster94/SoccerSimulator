@@ -51,6 +51,9 @@ public:
 
 	float CurrentDiagonalRatio();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnGoal();
+
 protected:
 
 	UPROPERTY(VisibleAnywhere)

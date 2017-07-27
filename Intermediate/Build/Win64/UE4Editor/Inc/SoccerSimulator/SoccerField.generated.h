@@ -13,6 +13,9 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 #define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_RPC_WRAPPERS
 #define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_RPC_WRAPPERS_NO_PURE_DECLS
+#define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_EVENT_PARMS
+extern SOCCERSIMULATOR_API  FName SOCCERSIMULATOR_OnGoal;
+#define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_CALLBACK_WRAPPERS
 #define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_INCLASS_NO_PURE_DECLS \
 	private: \
 	static void StaticRegisterNativesASoccerField(); \
@@ -74,12 +77,16 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(ASoccerField); \
 	FORCEINLINE static uint32 __PPO__bPaused() { return STRUCT_OFFSET(ASoccerField, bPaused); }
 
 
-#define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_9_PROLOG
+#define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_9_PROLOG \
+	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_EVENT_PARMS
+
+
 #define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
 	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_PRIVATE_PROPERTY_OFFSET \
 	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_RPC_WRAPPERS \
+	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_CALLBACK_WRAPPERS \
 	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_INCLASS \
 	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_STANDARD_CONSTRUCTORS \
 public: \
@@ -91,6 +98,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
 	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_PRIVATE_PROPERTY_OFFSET \
 	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_RPC_WRAPPERS_NO_PURE_DECLS \
+	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_CALLBACK_WRAPPERS \
 	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_INCLASS_NO_PURE_DECLS \
 	SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_ENHANCED_CONSTRUCTORS \
 private: \

@@ -11,6 +11,7 @@
 PRAGMA_DISABLE_OPTIMIZATION
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCode1SoccerSimulator() {}
+FName SOCCERSIMULATOR_OnGoal = FName(TEXT("OnGoal"));
 	void AGoal::StaticRegisterNativesAGoal()
 	{
 		FNativeFunctionRegistrar::RegisterFunction(AGoal::StaticClass(), "Facing",(Native)&AGoal::execFacing);
@@ -97,10 +98,14 @@ static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EDecelerationType(EDecel
 	{
 	}
 	IMPLEMENT_CLASS(ASoccerTeam, 1291727455);
+	void ASoccerField::OnGoal()
+	{
+		ProcessEvent(FindFunctionChecked(SOCCERSIMULATOR_OnGoal),NULL);
+	}
 	void ASoccerField::StaticRegisterNativesASoccerField()
 	{
 	}
-	IMPLEMENT_CLASS(ASoccerField, 3430233627);
+	IMPLEMENT_CLASS(ASoccerField, 512346439);
 	void ASoccerSimulatorGameMode::StaticRegisterNativesASoccerSimulatorGameMode()
 	{
 	}
@@ -150,6 +155,7 @@ static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EDecelerationType(EDecel
 	SOCCERSIMULATOR_API class UClass* Z_Construct_UClass_ASoccerBall();
 	SOCCERSIMULATOR_API class UClass* Z_Construct_UClass_ASoccerTeam_NoRegister();
 	SOCCERSIMULATOR_API class UClass* Z_Construct_UClass_ASoccerTeam();
+	SOCCERSIMULATOR_API class UFunction* Z_Construct_UFunction_ASoccerField_OnGoal();
 	SOCCERSIMULATOR_API class UClass* Z_Construct_UClass_ASoccerField_NoRegister();
 	SOCCERSIMULATOR_API class UClass* Z_Construct_UClass_ASoccerField();
 	SOCCERSIMULATOR_API class UClass* Z_Construct_UClass_ASoccerSimulatorGameMode_NoRegister();
@@ -1099,6 +1105,22 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 	}
 	static FCompiledInDefer Z_CompiledInDefer_UClass_ASoccerTeam(Z_Construct_UClass_ASoccerTeam, &ASoccerTeam::StaticClass, TEXT("ASoccerTeam"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(ASoccerTeam);
+	UFunction* Z_Construct_UFunction_ASoccerField_OnGoal()
+	{
+		UObject* Outer=Z_Construct_UClass_ASoccerField();
+		static UFunction* ReturnFunction = NULL;
+		if (!ReturnFunction)
+		{
+			ReturnFunction = new(EC_InternalUseOnlyConstructor, Outer, TEXT("OnGoal"), RF_Public|RF_Transient|RF_MarkAsNative) UFunction(FObjectInitializer(), NULL, 0x08020800, 65535);
+			ReturnFunction->Bind();
+			ReturnFunction->StaticLink();
+#if WITH_METADATA
+			UMetaData* MetaData = ReturnFunction->GetOutermost()->GetMetaData();
+			MetaData->SetValue(ReturnFunction, TEXT("ModuleRelativePath"), TEXT("SoccerField.h"));
+#endif
+		}
+		return ReturnFunction;
+	}
 	UClass* Z_Construct_UClass_ASoccerField_NoRegister()
 	{
 		return ASoccerField::StaticClass();
@@ -1116,6 +1138,7 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 				UObjectForceRegistration(OuterClass);
 				OuterClass->ClassFlags |= 0x20900080;
 
+				OuterClass->LinkChild(Z_Construct_UFunction_ASoccerField_OnGoal());
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 				CPP_BOOL_PROPERTY_BITMASK_STRUCT(bPaused, ASoccerField, bool);
@@ -1132,6 +1155,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 				UProperty* NewProp_SupportArea = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("SupportArea"), RF_Public|RF_Transient|RF_MarkAsNative) UObjectProperty(CPP_PROPERTY_BASE(SupportArea, ASoccerField), 0x00200800000a0009, Z_Construct_UClass_UBoxComponent_NoRegister());
 				UProperty* NewProp_DefaultComponent = new(EC_InternalUseOnlyConstructor, OuterClass, TEXT("DefaultComponent"), RF_Public|RF_Transient|RF_MarkAsNative) UObjectProperty(CPP_PROPERTY_BASE(DefaultComponent, ASoccerField), 0x00200800000a0009, Z_Construct_UClass_USceneComponent_NoRegister());
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
+				OuterClass->AddFunctionToFunctionMapWithOverriddenName(Z_Construct_UFunction_ASoccerField_OnGoal(), "OnGoal"); // 3227206345
 				OuterClass->StaticLink();
 #if WITH_METADATA
 				UMetaData* MetaData = OuterClass->GetOutermost()->GetMetaData();
@@ -1219,8 +1243,8 @@ PRAGMA_ENABLE_DEPRECATION_WARNINGS
 			ReturnPackage = CastChecked<UPackage>(StaticFindObjectFast(UPackage::StaticClass(), NULL, FName(TEXT("/Script/SoccerSimulator")), false, false));
 			ReturnPackage->SetPackageFlags(PKG_CompiledIn | 0x00000000);
 			FGuid Guid;
-			Guid.A = 0xF639D935;
-			Guid.B = 0x6793D97B;
+			Guid.A = 0x1AF7B84C;
+			Guid.B = 0x54BF3D62;
 			Guid.C = 0x00000000;
 			Guid.D = 0x00000000;
 			ReturnPackage->SetGuid(Guid);

@@ -76,6 +76,8 @@ void AGoal::ScoreAreaOverlapped(UPrimitiveComponent* ThisComponent, AActor* Othe
 		GEngine->AddOnScreenDebugMessage(-1, 10.0f, FColor::White, "Goal Scored");
 
 		ResetGame();
+
+		//Team->GetField()->OnGoal();
 	}
 }
 

@@ -311,6 +311,8 @@ void KickBall::Execute(AFieldPlayer& player)
 
 		player.FindSupport();
 
+		player.GetTeam()->GetField()->OnGoal();
+
 		return;
 	}
 
