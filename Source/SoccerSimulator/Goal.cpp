@@ -77,7 +77,7 @@ void AGoal::ScoreAreaOverlapped(UPrimitiveComponent* ThisComponent, AActor* Othe
 
 		ResetGame();
 
-		//Team->GetField()->OnGoal();
+		Team->GetField()->OnGoal(ball->GetLocation());
 	}
 }
 

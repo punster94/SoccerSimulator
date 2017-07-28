@@ -52,7 +52,10 @@ public:
 	float CurrentDiagonalRatio();
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void OnGoal();
+	void OnGoal(FVector GoalPosition);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnShotAtGoal();
 
 protected:
 

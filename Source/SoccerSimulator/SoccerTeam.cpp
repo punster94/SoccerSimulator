@@ -310,7 +310,7 @@ void ASoccerTeam::ReturnAllFieldPlayersToHome()
 		player->GetStateMachine().ChangeState(*ReturnToHomeRegion::Instance());
 	}
 
-	//Goalie->GetStateMachine().ChangeState(*ReturnHome::Instance());
+	Location = InitialLocation;
 }
 
 void ASoccerTeam::SetAllPlayersToAttackMode()
@@ -549,6 +549,7 @@ bool ASoccerTeam::IsPlayerThreatened(APlayerBase& Player)
 		toOpponent.Normalize();
 
 		FVector toGoal = OpponentTeam->GetGoal()->GetLocation() - Player.GetLocation();
+		toGoal.Normalize();
 
 		float dot = FVector::DotProduct(toOpponent, toGoal);
 

@@ -6,6 +6,7 @@
 ===========================================================================*/
 
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
+struct FVector;
 #ifdef SOCCERSIMULATOR_SoccerField_generated_h
 #error "SoccerField.generated.h already included, missing '#pragma once' in SoccerField.h"
 #endif
@@ -13,8 +14,15 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 
 #define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_RPC_WRAPPERS
 #define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_RPC_WRAPPERS_NO_PURE_DECLS
-#define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_EVENT_PARMS
+#define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_EVENT_PARMS \
+	struct SoccerField_eventOnGoal_Parms \
+	{ \
+		FVector GoalPosition; \
+	};
+
+
 extern SOCCERSIMULATOR_API  FName SOCCERSIMULATOR_OnGoal;
+extern SOCCERSIMULATOR_API  FName SOCCERSIMULATOR_OnShotAtGoal;
 #define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_CALLBACK_WRAPPERS
 #define SoccerSimulator_Source_SoccerSimulator_SoccerField_h_12_INCLASS_NO_PURE_DECLS \
 	private: \

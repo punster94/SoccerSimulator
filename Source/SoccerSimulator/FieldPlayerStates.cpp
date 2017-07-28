@@ -209,6 +209,8 @@ void ReturnToHomeRegion::Enter(AFieldPlayer& player)
 
 void ReturnToHomeRegion::Execute(AFieldPlayer& player)
 {
+	player.TargetHome();
+
 	if (player.GetTeam()->GetField()->GameOn() &&
 		player.IsClosestTeamMemberToBall() &&
 		player.GetTeam()->GetReceiver() == nullptr &&
@@ -311,7 +313,7 @@ void KickBall::Execute(AFieldPlayer& player)
 
 		player.FindSupport();
 
-		player.GetTeam()->GetField()->OnGoal();
+		player.GetTeam()->GetField()->OnShotAtGoal();
 
 		return;
 	}
